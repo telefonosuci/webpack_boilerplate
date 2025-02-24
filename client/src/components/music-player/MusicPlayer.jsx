@@ -38,7 +38,7 @@ const playlist = {
   owner: "Sintra",
   image: "assets/playlist_image.png",
   artists: ["Artic monkeys", "Dirty pretty things", "The fratellis"],
-
+/*
   tracks: [
     {
         title: "Song 1",
@@ -48,8 +48,8 @@ const playlist = {
     { title: "Song 2", image: "assets/song_image.png", src: "assets/music/SoundHelix-Song-2.mp3" },
     { title: "Song 3", image: "assets/song_image.png", src: "assets/music/SoundHelix-Song-3.mp3" },
   ]
+*/
 
-  /*
 
     tracks: [
         { title: "Song 1", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
@@ -62,12 +62,13 @@ const playlist = {
         { title: "Song 8", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
         { title: "Song 9", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
     ]
-        */
+
 };
 
 export default function MusicPlayer() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);

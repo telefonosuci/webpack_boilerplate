@@ -1,88 +1,72 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./musicPlayer.css";
 
-/*
-const tracks = [
-    { title: "Song 1", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-    { title: "Song 2", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-    { title: "Song 3", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-    { title: "Song 4", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-    { title: "Song 5", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-    { title: "Song 6", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-    { title: "Song 7", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-    { title: "Song 8", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-    { title: "Song 9", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
-];*/
-/*
-const tracks = [
-  {
-    title: "Song 1",
-    album: "Sound Helix",
-    src: "assets/music/SoundHelix-Song-1.mp3",
-  },
-  {
-    title: "Song 2",
-    album: "Sound Helix",
-    src: "assets/music/SoundHelix-Song-2.mp3",
-  },
-  {
-    title: "Song 3",
-    album: "Sound Helix",
-    src: "assets/music/SoundHelix-Song-3.mp3",
-  },
-];
-*/
 const playlist = {
   title: "Your daily mix",
   description: "Your favourite music, plus some new discoveries you'll love.",
   owner: "Sintra",
   image: "assets/playlist_image.png",
-  artists: ["Artic monkeys", "Dirty pretty things", "The fratellis"],
-  /*
+  artists: ["Arctic Monkeys", "Dirty Pretty Things", "The Fratellis"],
   tracks: [
-    {
-        title: "Song 1",
-        image: "assets/song_image.png",
-        src: "assets/music/SoundHelix-Song-1.mp3"
-    },
-    { title: "Song 2", image: "assets/song_image.png", src: "assets/music/SoundHelix-Song-2.mp3" },
-    { title: "Song 3", image: "assets/song_image.png", src: "assets/music/SoundHelix-Song-3.mp3" },
-  ]*/
-    tracks: [
-        { title: "Song 1", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-        { title: "Song 2", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-        { title: "Song 3", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-        { title: "Song 4", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-        { title: "Song 5", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-        { title: "Song 6", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-        { title: "Song 7", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-        { title: "Song 8", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-        { title: "Song 9", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
-    ]
+    { title: "Song 1", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Song 2", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Song 3", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    { title: "Song 4", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+    { title: "Song 5", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+    { title: "Song 6", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+    { title: "Song 7", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+    { title: "Song 8", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+    { title: "Song 9", image: "assets/song_image.png", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
+  ]
 };
 
-export default function MusicPlayer() {
+export default function NewMusicPlayer() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isShuffle, setIsShuffle] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-
   const audioRef = useRef(new Audio(playlist.tracks[currentTrack].src));
 
-  const getRandomTrack = () => {
-    // return Math.floor(Math.random() * tracks.length);
-    const validIndexes = playlist.tracks
-      .map((_, index) => index)
-      .filter((i) => i !== currentTrack);
-    return validIndexes[Math.floor(Math.random() * validIndexes.length)];
-  };
 
+
+  // Added
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+
+  useEffect(() => {
+    // Preload all tracks
+    playlist.tracks.forEach(track => {
+      const audio = new Audio(track.src);
+      audio.preload = "auto";
+    });
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
+    setIsLoading(true);
+    audio.src = playlist.tracks[currentTrack].src;
+    audio.load();
+
+    const handleCanPlayThrough = () => {
+      setIsLoading(false);
+      if (isPlaying) {
+        audio.play().catch(err => console.warn("Playback retry needed", err));
+      }
+    };
+
+    const handleError = () => {
+      console.warn("Error loading track. Retrying in 2 seconds...");
+      setTimeout(() => {
+        audio.load();
+        if (isPlaying) audio.play().catch(() => {});
+      }, 2000);
+    };
+
+    audio.addEventListener("canplaythrough", handleCanPlayThrough);
+    audio.addEventListener("error", handleError);
+
 
     const updateTime = () => {
       //console.log("Timeupdate ", audio.currentTime);
@@ -93,61 +77,26 @@ export default function MusicPlayer() {
     //audio.addEventListener("progress", updateTime);
     audio.addEventListener("loadedmetadata", () => setDuration(audio.duration));
 
-    audio.addEventListener("ended", () => {
-      console.log("Track has finished playing.");
-
-      let nextTrack;
-
-      if (!isShuffle) {
-        nextTrack = currentTrack + 1;
-        console.log("Get next track, isshuffle is ", isShuffle);
-      } else {
-        nextTrack = getRandomTrack();
-        console.log("Get random track, isshuffle is ", isShuffle);
-        console.log("Get random track ", nextTrack);
-      }
-      setCurrentTrack(nextTrack);
-    });
-
     return () => {
-      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("canplaythrough", handleCanPlayThrough);
+      audio.removeEventListener("error", handleError);
     };
-  }, []);
-
-  useEffect(() => {
-    audioRef.current.pause();
-    //audioRef.current = new Audio(tracks[currentTrack].src);
-    audioRef.current.src = playlist.tracks[currentTrack].src;
-
-    audioRef.current.load();
-
-    audioRef.current.volume = volume;
-    if (isPlaying) {
-      //setIsPlaying(true);
-      audioRef.current.play();
-    }
-  }, [currentTrack]);
+  }, [currentTrack, isPlaying]);
 
   const playPauseHandler = () => {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch(err => console.warn("Playback blocked", err));
     }
     setIsPlaying(!isPlaying);
   };
 
   const changeTrack = (direction) => {
-    audioRef.current.pause();
-    let newTrack = currentTrack + direction;
-    if (newTrack < 0) newTrack = playlist.tracks.length - 1;
-    if (newTrack >= playlist.tracks.length) newTrack = 0;
+    let newTrack = (currentTrack + direction + playlist.tracks.length) % playlist.tracks.length;
     setCurrentTrack(newTrack);
-    //audioRef.current = new Audio(tracks[newTrack].src);
-    audioRef.current.src = new Audio(playlist.tracks[newTrack].src);
-    setCurrentTime(0);
-    if (isPlaying) audioRef.current.play();
   };
+
 
   const toggleMute = () => {
     setIsMuted((prevMuted) => {
@@ -179,6 +128,11 @@ export default function MusicPlayer() {
   };
 
   return (
+
+    <>
+
+
+
     <div
       style={{ margin: "0 auto" }}
       className="musicplayer flex flex-col items-center justify-center p-4 bg-gray-900 text-white shadow-lg bg-gradient-to-b from-gray-500 to-black"
@@ -306,6 +260,15 @@ export default function MusicPlayer() {
 
 
 
+          {isLoading ?
+
+            <div>
+              <div className="progress-bar">
+                <div className="progress"></div>
+              </div>
+            </div>
+
+          :
           <div className="w-full flex flex-col items-center">
             <div className="text-sm flex justify-between w-full">
               <span>{formatTime(currentTime)}</span>
@@ -323,6 +286,8 @@ export default function MusicPlayer() {
               <span>{formatTime(duration)}</span>
             </div>
           </div>
+          }
+
 
 
         </div>
@@ -460,5 +425,11 @@ export default function MusicPlayer() {
         </ol>
       </div>
     </div>
+
+
+
+
+
+    </>
   );
 }

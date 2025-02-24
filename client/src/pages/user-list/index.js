@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import MusicPlayer from '../../components/music-player/MusicPlayer';
+import NewMusicPlayer from '../../components/music-player/NewMusicPlayer';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const root = createRoot(el);
     root.render(
-      <MusicPlayer />
+      <NewMusicPlayer />
     );
   });
 

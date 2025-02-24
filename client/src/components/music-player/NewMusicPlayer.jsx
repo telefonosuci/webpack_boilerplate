@@ -35,6 +35,15 @@ export default function NewMusicPlayer() {
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
 
+
+  const getRandomTrack = () => {
+    // return Math.floor(Math.random() * tracks.length);
+    const validIndexes = playlist.tracks
+      .map((_, index) => index)
+      .filter((i) => i !== currentTrack);
+    return validIndexes[Math.floor(Math.random() * validIndexes.length)];
+  };
+
   useEffect(() => {
     // Preload all tracks
     playlist.tracks.forEach(track => {
@@ -75,6 +84,24 @@ export default function NewMusicPlayer() {
 
     audio.addEventListener("timeupdate", updateTime);
     //audio.addEventListener("progress", updateTime);
+
+
+    audio.addEventListener("ended", () => {
+      console.log("Track has finished playing.");
+
+      let nextTrack;
+
+      if (!isShuffle) {
+        nextTrack = currentTrack + 1;
+        console.log("Get next track, isshuffle is ", isShuffle);
+      } else {
+        nextTrack = getRandomTrack();
+        console.log("Get random track, isshuffle is ", isShuffle);
+        console.log("Get random track ", nextTrack);
+      }
+      setCurrentTrack(nextTrack);
+    });
+
     audio.addEventListener("loadedmetadata", () => setDuration(audio.duration));
 
     return () => {

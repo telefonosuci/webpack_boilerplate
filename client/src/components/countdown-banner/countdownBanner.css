@@ -1,0 +1,61 @@
+.countdownbanner {
+  text-align: center;
+  background-color: #9ebeff;
+  border: 1px solid #0055ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.countdownbanner-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .countdownbanner-logo {
+    animation: countdownbanner-logo-spin infinite 20s linear;
+  }
+}
+
+.countdownbanner-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.countdownbanner-link {
+  color: #61dafb;
+}
+
+@keyframes countdownbanner-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.countdownbanner-timer {
+  display: flex;
+  margin: 0 auto;
+}
+
+.countdownbanner-cell {
+  background-color: #fff;
+  border-radius: 8px;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  margin: 4px;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+}

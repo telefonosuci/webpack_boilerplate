@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina di Base</title>
+
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+
+    <link rel="stylesheet" href="assets/scss.css">
+    <script src="assets/product-list-bundle.js" defer></script>
+    <script src="assets/user-list-bundle.js" defer></script>
+
+</head>
+<body>
+    <header>
+        <h1>Benvenuto nella mia pagina</h1>
+    </header>
+    <main>
+
+      <p>Questa è una semplice pagina HTML con asset esterni.</p>
+      <p>Lista utenti</p>
+
+      <div id="root" class="js-react-user-lister"></div>
+
+
+
+
+      <h1>Contatore con Classe</h1>
+      <p id="counter">0</p>
+      <button id="counter-incrementBtn">Incrementa</button>
+      <button id="counter-decrementBtn">Decrementa</button>
+      <button id="counter-resetBtn">Reset</button>
+
+    </main>
+
+</body>
+</html>

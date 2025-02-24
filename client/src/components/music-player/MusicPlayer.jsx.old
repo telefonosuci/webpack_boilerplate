@@ -1,0 +1,91 @@
+import React, { useState, useRef } from "react";
+
+const tracks = [
+    { title: "Song 1", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Song 2", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Song 3", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
+];
+
+export default function MusicPlayer() {
+
+    const [currentTrack, setCurrentTrack] = useState(0);
+
+    const audioRef = useRef(new Audio(tracks[currentTrack].src));
+
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [volume, setVolume] = useState(audioRef.current?.volume || 1);
+    const [isMuted, setIsMuted] = useState(false);
+
+
+    const playPauseHandler = () => {
+        if (isPlaying) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.play();
+        }
+        setIsPlaying(!isPlaying);
+    };
+
+    const changeTrack = (direction) => {
+        audioRef.current.pause();
+        let newTrack = currentTrack + direction;
+        if (newTrack < 0) newTrack = tracks.length - 1;
+        if (newTrack >= tracks.length) newTrack = 0;
+        setCurrentTrack(newTrack);
+        audioRef.current = new Audio(tracks[newTrack].src);
+        if (isPlaying) audioRef.current.play();
+    };
+
+    const toggleMute = () => {
+        setIsMuted((prevMuted) => {
+            const newMutedState = !prevMuted;
+            audioRef.current.muted = newMutedState;
+            return newMutedState;
+        });
+    };
+
+    const handleVolumeChange = (e) => {
+        const newVolume = parseFloat(e.target.value);
+        setVolume(newVolume);
+        audioRef.current.volume = newVolume;
+    };
+
+    return (
+        <div className="flex flex-col items-center justify-center p-4 bg-gray-900 text-white rounded-lg shadow-lg w-80">
+            <h2 className="text-xl font-bold mb-4 underline">{tracks[currentTrack].title}</h2>
+            <div className="flex gap-4">
+                <button onClick={() => changeTrack(-1)} className="p-2 bg-gray-700 rounded-full">⏮</button>
+                <button onClick={playPauseHandler} className="p-2 bg-blue-600 rounded-full">{isPlaying ? "⏸" : "▶"}</button>
+                <button onClick={() => changeTrack(1)} className="p-2 bg-gray-700 rounded-full">⏭</button>
+            </div>
+
+            <div className="mt-4 w-full flex flex-col items-center">
+                <label className="text-sm">Volume: {Math.round(volume * 100)}%</label>
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    className="w-full mt-2"
+                />
+
+                <button onClick={toggleMute} className="p-2 bg-gray-700 rounded-full mt-2">
+                    {isMuted ? "🔇" : volume > 0.5 ? "🔊" : "🔉"}
+                </button>
+            </div>
+
+            <div className="mt-4">
+                <h5 className="text-lg font-semibold">Song List</h5>
+                <ol className="list-decimal list-inside mt-2">
+                    {tracks.map((track, index) => (
+                        <li key={index} className={`cursor-pointer ${index === currentTrack ? 'text-blue-400 underline' : 'text-white'}`} onClick={() => setCurrentTrack(index)}>
+                            {track.title}
+                        </li>
+                    ))}
+                </ol>
+            </div>
+        </div>
+    );
+}

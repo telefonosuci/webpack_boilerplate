@@ -1,0 +1,8 @@
+.musicplayer_trackbar {
+    display: flex;
+}
+
+.musicplayer_trackbar_currenttime {
+  display: flex;
+  flex-direction: column;
+}

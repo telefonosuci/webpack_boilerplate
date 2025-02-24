@@ -1,0 +1,13 @@
+{
+  "ignoreFiles": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+  "rules": {
+    "string-quotes": "double",
+    "max-nesting-depth": 3,
+    "selector-max-id": 0,
+    "no-empty-source": true,
+    "block-no-empty": true,
+    "declaration-block-trailing-semicolon": "always",
+    "selector-pseudo-element-colon-notation": "double",
+    "property-no-unknown": true
+  }
+}
